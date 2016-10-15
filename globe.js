@@ -15,13 +15,13 @@ var DAT = DAT || {};
 
 DAT.Globe = function(container, opts) {
   opts = opts || {};
-  
+
   var colorFn = opts.colorFn || function(x) {
     var c = new THREE.Color();
     c.setHSL( ( 0.6 - ( x * 0.5 ) ), 1.0, 0.5 );
     return c;
   };
-  var imgDir = opts.imgDir || '/globe/';
+  var imgDir = opts.imgDir;
 
   var Shaders = {
     'earth' : {
@@ -103,7 +103,7 @@ DAT.Globe = function(container, opts) {
 
     shader = Shaders['earth'];
     uniforms = THREE.UniformsUtils.clone(shader.uniforms);
-
+    //change later when posting to internet
     uniforms['texture'].value = THREE.ImageUtils.loadTexture(imgDir+'world.jpg');
 
     material = new THREE.ShaderMaterial({
@@ -204,9 +204,10 @@ DAT.Globe = function(container, opts) {
     for (i = 0; i < data.length; i += step) {
       lat = data[i];
       lng = data[i + 1];
-      color = colorFnWrapper(data,i);
+      //color = colorFnWrapper(data,i);
+      color = new THREE.Color().setRGB(1, 0, 0);
       size = data[i + 2];
-      size = size*200;
+      size = size/10;
       addPoint(lat, lng, size, color, subgeo);
     }
     if (opts.animated) {
@@ -406,4 +407,3 @@ DAT.Globe = function(container, opts) {
   return this;
 
 };
-

@@ -10,7 +10,7 @@
       body {
         margin: 0;
         padding: 0;
-        background: #000000 url(/loading.gif) center center no-repeat;
+        background: #000000 url(loading.gif) center center no-repeat;
         color: #ffffff;
         font-family: sans-serif;
         font-size: 13px;
@@ -95,7 +95,7 @@
         position: absolute;
         bottom: 15px;
         left: 20px;
-        background: url(/globe/ce.png);
+        background: url(ce.png);
       }
 
 
@@ -109,80 +109,75 @@
     <strong><a href="http://www.chromeexperiments.com/globe">WebGL Globe</a></strong> <span class="bull">&bull;</span> Created by Sahil Parikh<span class="bull">&bull;</span> Data acquired from <a href="http://sedac.ciesin.columbia.edu/gpw/">Twitter REST API</a>
   </div>
 
-  <div id="currentInfo">
-    <span id="year1990" class="year">1990</span>
-    <span id="year1995" class="year">1995</span>
-    <span id="year2000" class="year">2000</span>
-  </div>
 
   <div id="title">
-    2016 Election Tweets
+    Denver Altitude
   </div>
 
   <a id="ce" href="http://www.chromeexperiments.com/globe">
     <span>This is a Chrome Experiment</span>
   </a>
 
-  <script type="text/javascript" src="/globe/third-party/Detector.js"></script>
-  <script type="text/javascript" src="/globe/third-party/three.min.js"></script>
-  <script type="text/javascript" src="/globe/third-party/Tween.js"></script>
-  <script type="text/javascript" src="/globe/globe.js"></script>
+  <script type="text/javascript" src="third-party/Detector.js"></script>
+  <script type="text/javascript" src="third-party/three.min.js"></script>
+  <script type="text/javascript" src="globe.js"></script>
   <script type="text/javascript">
 
-    if(!Detector.webgl){
-      Detector.addGetWebGLMessage();
-    } else {
+    var container = document.getElementById( 'container' );
 
-      var years = ['1990','1995','2000'];
-      var container = document.getElementById('container');
-      var globe = new DAT.Globe(container);
+    // Make the globe
+    var globe = new DAT.Globe(container);
 
-      console.log(globe);
-      var i, tweens = [];
+    // We're going to ask a file for the JSON data.
+    var xhr = new XMLHttpRequest();
 
-      var settime = function(globe, t) {
-        return function() {
-          new TWEEN.Tween(globe).to({time: t/years.length},500).easing(TWEEN.Easing.Cubic.EaseOut).start();
-          var y = document.getElementById('year'+years[t]);
-          if (y.getAttribute('class') === 'year active') {
-            return;
-          }
-          var yy = document.getElementsByClassName('year');
-          for(i=0; i<yy.length; i++) {
-            yy[i].setAttribute('class','year');
-          }
-          y.setAttribute('class', 'year active');
-        };
-      };
+    // Where do we get the data?
+    //xhr.open( 'GET', '/Users/apple/Documents/CapitalOneCodingChallenge/denveraltitude.json', true );
 
-      for(var i = 0; i<years.length; i++) {
-        var y = document.getElementById('year'+years[i]);
-        y.addEventListener('mouseover', settime(globe,i), false);
-      }
+    // What do we do when we have it?
+    /*xhr.onreadystatechange = function(e) {
 
-      var xhr;
-      TWEEN.start();
+        // If we've received the data
+        if ( xhr.readyState === 4 && xhr.status === 200 ) {
 
-
-      xhr = new XMLHttpRequest();
-      xhr.open('GET', 'population909500.json', true);
-      xhr.onreadystatechange = function(e) {
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            var data = JSON.parse(xhr.responseText);
+            // Parse the JSON
+            var data = JSON.parse( xhr.responseText );
             window.data = data;
-            for (i=0;i<data.length;i++) {
-              globe.addData(data[i][1], {format: 'magnitude', name: data[i][0], animated: true});
-            }
+            // Tell the globe about your JSON data
+            for ( var i = 0; i < data.length; i ++ ) {
+                globe.addData( data[i][1],
+                {
+                  format: 'magnitude',
+                  name: data[i][0]
+                } );
+              }
+            //globe.addData(data, format: { 'legend' });
+
+              // Create the geometry
             globe.createPoints();
-            settime(globe,0)();
+
+              // Begin animation
             globe.animate();
             document.body.style.backgroundImage = 'none'; // remove loading
-          }
+
         }
+
       };
-      xhr.send(null);
-    }
+
+          // Begin request
+          xhr.send( null );*/
+          var data = [[39.7391536, -104.9847034, 1608.6379]];
+          window.data = data;
+          for ( var i = 0; i < data.length; i ++ ) {
+              globe.addData( data[i],
+              {
+                format: 'magnitude',
+                name: 'Denver Altitude'
+              } );
+            }
+          globe.createPoints();
+          globe.animate();
+          document.body.style.backgroundImage = 'none';
 
   </script>
 
