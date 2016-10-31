@@ -205,9 +205,46 @@ DAT.Globe = function(container, opts) {
       lat = data[i];
       lng = data[i + 1];
       //color = colorFnWrapper(data,i);
-      color = new THREE.Color().setRGB(1, 0, 0);
       size = data[i + 2];
-      size = size/10;
+      size = size;
+      if(size == 125)
+      {
+        color = new THREE.Color().setRGB(1, 0, 0);
+      }
+      if (size == 75)
+      {
+        //color = new THREE.Color().setRGB(8, 76, 97);
+        color = new THREE.Color("rgb(8, 76, 97)");
+        console.log(size);
+      }
+      if(size == 50)
+      {
+        color = new THREE.Color("rgb(227, 181, 5)");
+        //color = new THREE.Color().setRGB(227, 181, 5);
+      }
+      if(size == 40)
+      {
+        //color = new THREE.Color().setRGB(86, 163, 166);
+        color = new THREE.Color("rgb(86, 163, 166)");
+      }
+      if(size == 30)
+      {
+        //color = new THREE.Color().setRGB(21, 127, 31);
+        color = new THREE.Color("rgb(21, 127, 31)");
+      }
+      if(size == 20)
+      {
+        //color = new THREE.Color().setRGB(27, 98, 95);
+        color = new THREE.Color("rgb(27, 98, 95)");
+      }
+      if(size == 10)
+      {
+        //color = new THREE.Color().setRGB(205, 89, 89);
+        color = new THREE.Color("rgb(205, 89, 89)");
+      }
+      if(size == 120) {
+        color = new THREE.Color().setRGB(1, 0 ,0);
+      }
       addPoint(lat, lng, size, color, subgeo);
     }
     if (opts.animated) {
